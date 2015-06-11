@@ -1,6 +1,6 @@
 - hosts: all
 
-- include: vars.yml
+#- include: vars.yml
 # Expected output:
 # TASK [VARS] *********************************************************************
 # ok: [sun.apomorph.com] => {
@@ -30,7 +30,7 @@
 # }
 
 
-- include: parameter.yml source=parameter
+#- include: parameter.yml source=parameter
 # Expected output:
 # TASK [PARAMETER] ****************************************************************
 # ok: [sun.apomorph.com] => {
@@ -40,7 +40,7 @@
 #
 # Actual output always appears to be correct.
 
-- include: vars.yml source=parameter
+#- include: vars.yml source=parameter
 # Expected output:
 # TASK [VARS] *********************************************************************
 # ok: [sun.apomorph.com] => {
@@ -50,7 +50,7 @@
 #
 # Actual output always appears to be correct
 
-- include: vars_files.yml source=parameter
+#- include: vars_files.yml source=parameter
 # Expected output:
 # TASK [VARS_FILE] ****************************************************************
 # ok: [sun.apomorph.com] => {
