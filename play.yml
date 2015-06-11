@@ -1,0 +1,90 @@
+- hosts: all
+
+- include: vars.yml
+# Expected output:
+# TASK [VARS] *********************************************************************
+# ok: [sun.apomorph.com] => {
+#     "msg": "source=vars", 
+#     "changed": false
+# }
+#
+# Actual output is correct when run alone.  If run in combination with another
+# include that has a source parameter the output is:
+# TASK [VARS] *********************************************************************
+# ok: [sun.apomorph.com] => {
+#     "msg": "source=parameter", 
+#     "changed": false
+# }
+
+#- include: parameter.yml
+# Expected output:
+# TASK [PARAMETER] ****************************************************************
+# fatal: [sun.apomorph.com]: FAILED! => {"msg": "ERROR! the field 'args' has an invalid value, which appears to include a variable that is undefined. The error was: 'source' is undefined", "failed": true}
+#
+# Actual output is correct when run alone.  If run in combination with another
+# include of the same file that is passed the source parameter, the output is:
+# TASK [PARAMETER] ****************************************************************
+# ok: [sun.apomorph.com] => {
+#     "msg": "source=parameter", 
+#     "changed": false
+# }
+
+
+- include: parameter.yml source=parameter
+# Expected output:
+# TASK [PARAMETER] ****************************************************************
+# ok: [sun.apomorph.com] => {
+#     "msg": "source=parameter", 
+#     "changed": false
+# }
+#
+# Actual output always appears to be correct.
+
+- include: vars.yml source=parameter
+# Expected output:
+# TASK [VARS] *********************************************************************
+# ok: [sun.apomorph.com] => {
+#     "msg": "source=parameter", 
+#     "changed": false
+# }
+#
+# Actual output always appears to be correct
+
+- include: vars_files.yml source=parameter
+# Expected output:
+# TASK [VARS_FILE] ****************************************************************
+# ok: [sun.apomorph.com] => {
+#     "msg": "source=parameter", 
+#     "changed": false
+# }
+#
+# Actually output varies in complex manners.  If run by itself or in most other
+# cominations with the other includes, the actual output is:
+# TASK [VARS_FILE] ****************************************************************
+# ok: [sun.apomorph.com] => {
+#     "msg": "source=vars_file", 
+#     "changed": false
+# }
+#
+# However, if you combine it with '- include: vars.yml source=parameter' and
+# '- include: parameter.yml source=parameter' (and 0 or more over the other
+# includes, then the actual output is correct!
+
+- include: vars_and_vars_files.yml source=parameter
+# Expected output:
+# TASK [VARS_AND_VARS_FILE] *******************************************************
+# ok: [sun.apomorph.com] => {
+#     "msg": "source=parameter", 
+#     "changed": false
+# }
+#
+# Actually output varies in complex manners.  If run by itself or in most other
+# cominations with the other includes, the actual output is:
+# TASK [VARS_AND_VARS_FILE] *******************************************************
+# ok: [sun.apomorph.com] => {
+#     "msg": "source=vars_file", 
+#     "changed": false
+# }
+#
+# However, if the combination includes '- include: parameter.yml source=parameter'
+# and 0 or more of the other includes, the output will always be correct.

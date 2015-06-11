@@ -1,0 +1,8 @@
+- hosts: all
+  vars:
+    source: vars
+  tasks:
+    - name:   VARS
+      debug:
+        msg: source={{ source }}
+

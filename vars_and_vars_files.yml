@@ -1,0 +1,9 @@
+- hosts: all
+  vars:
+    source: vars
+  vars_files:
+    - data.yml
+  tasks:
+    - name: VARS_AND_VARS_FILE
+      debug:
+        msg: source={{ source }}
